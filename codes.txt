@@ -1,0 +1,615 @@
+//PROBLEM : exchange money
+//Ban đầu có n đồng, cho input 1 dãy số, là giá đồng đôla trong những ngày liên tiếp. Viết chương trình 
+//chọn ra ngày mua đôla và ngày bán đô la sao cho số đồng thu được cuối cùng là lớn nhất.
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+typedef long long ll;
+typedef vector<int> vi;
+typedef pair<int, int> ii;
+
+#define EL printf("\n")
+#define sz(A) (int)A.size()
+#define FOR(i, l, r) for (int i = l; i <= r; i++)
+#define FOD(i, r, l) for (int i = r; i >= l; i--) 
+#define faster ios_base::sync_with_stdio(false) && cin.tie(NULL)
+
+#define debug 1
+
+int exchangeMoney(std::vector<int> a, int x) {
+	int n = sz(a);
+	int res = x;
+	FOR(i, 0, n - 2) {
+		int num = x / a[i];
+		int rem = x % a[i];
+		FOR(j, i + 1, n - 1) {
+			res = max(res, rem + num * a[j]);
+		}
+	}
+	return res;
+}
+
+int main() {
+	cout << exchangeMoney(vi({ 978, 604, 888 }), 385);
+	EL;
+	return 0;
+}
+
+//PROBLEM : biggest remainer
+//Input 1 dãy số nguyên, tìm số dư lớn nhất khi lấy 2 phần tử trong dãy chia cho nhau
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int biggestRemainer(vector<int> a)
+{
+	int n = a.size();
+	int max, result, i;
+	if (n <= 1) return 0;
+	if (a[0] > a[1]) {
+		max = a[0];
+		result = a[1];
+	}
+	else {
+		max = a[1];
+		result = a[0];
+	}
+	for (i = 2; i < n; i++)
+		if (a[i] > max) {
+			result = max;
+			max = a[i];
+		}
+		else if ((a[i] > result) && (a[i] < max)) result = a[i];
+	return result % max;
+}
+
+int main() {
+	cout << biggestRemainer(vector<int> {16, 32, 49, 23, 40, 33, 9, 4, 20, 41});
+	return 0;
+}
+
+//PROBLEM : Phần 1: Bài toán liệt kê/ Generate
+//Sinh dãy nhị phân n bit
+#include <iostream>
+#include <memory.h> 
+using namespace std;
+
+int i, j, n;
+char x[30];		//neu khai bao trong main thi se bi loi khi n=1 or 2
+
+main() {
+	cin >> n;
+	memset(x, '0', n);
+	while (i >= 0) {
+		puts(x);
+		i = n - 1;
+		while (x[i] != '0') i--;
+		if (i >= 0) {
+			x[i] = '1'; for (j = i + 1; j < n; j++) x[j] = '0';
+
+		}
+	}
+}
+
+//PROBLEM : Phần 1: Bài toán liệt kê/ Generate
+//Liệt kê tổ hợp chập k của n
+#include <iostream>
+
+using namespace std;
+
+main() {
+	int k, n, i, j, found;
+	cin >> n >> k;
+	int a[n], x[k];
+
+	for (j = 0; j < n; j++) a[j] = j + 1;
+	for (j = 0; j < k; j++) x[j] = j + 1;
+
+	while (1) {
+		for (j = 0; j < k; j++) cout << x[j] << " "; cout << "\n";
+		if (x[0] == a[n - k]) break;
+		i = k - 1;
+		while ((x[i] == a[n - k + i]) && (i > 0))
+			i--;
+
+		found = n - 1;
+		while (x[i] != a[found])
+			found--;
+
+		for (j = i; j < k; j++) {
+			found++;
+			x[j] = a[found];
+		}
+	}
+}
+
+//PROBLEM : Phần 1: Bài toán liệt kê/ Generate
+//Liệt kê hoán vị của n
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+main() {
+	int i, j, k, n;
+	cin >> n;
+	int x[n];
+	for (i = 1; i <= n; i++) x[i] = i;
+	while (1) {
+		for (i = 1; i <= n; i++) cout << x[i] << " "; cout << "\n";
+
+		i = n;
+		while ((i > 1) && (x[i] < x[i - 1])) i--; //i= vi tri dau cua day giam dai nhat
+
+		if (i == 1) break;
+
+		k = n;
+		while (x[k] < x[i - 1])  k--; //k= vi tri phan tu lon hon x[i-1] tinh tu cuoi day giam
+		swap(x[i - 1], x[k]);
+		for (j = i; j <= (n + i) / 2; j++) swap(x[j], x[n - j + i]);
+	}
+}
+
+//PROBLEM : Phần 1: Bài toán liệt kê/ Generate
+//Bài tập 2
+#include <iostream>
+#include <cstdio>
+#include <memory.h>
+using namespace std;
+int k, i, j, n;
+int a[15];
+
+main() {
+	cin >> n >> k;
+	memset(a, 0, k);
+	while (i >= 0) {
+		for (i = 0; i < k; i++) cout << a[i] << " "; cout << "\n";
+		i = k - 1;
+		while ((a[i] == n - 1) && (i >= 0)) i--;
+		a[i]++; for (j = i + 1; j < k; j++) a[j] = 0;
+	}
+}
+
+//PROBLEM : Phần 1: Bài toán liệt kê/ Generate
+//Bài tập 3
+#include <iostream>
+#include <memory.h>
+using namespace std;
+int n, i, dem, j;
+int a[15];
+
+main() {
+	cin >> n;
+	if (n < 4) cout << "Khong tim duoc day thoa man"; else
+	{
+		while (1) {
+			i = n - 1;
+			while ((i >= 0) && (a[i] == 1)) i--;
+			if (i < 0) break;
+			a[i] = 1; for (j = i + 1; j < n; j++) a[j] = 0;
+			dem = 0;
+			for (i = 0; i < n - 1; i++) if ((a[i] == 0) && (a[i + 1] == 1)) dem++;
+			if (dem != 2) continue;
+			for (i = 0; i < n; i++) cout << a[i] << " "; cout << "\n";
+		}
+
+	}
+}
+
+//PROBLEM : Phần 1: Bài toán liệt kê/ Generate
+//Bài tập 4
+#include <iostream>
+#include <cstdio>
+#include <string>
+using namespace std;
+int i, j, k, n, found;
+
+main() {
+	cin >> n >> k;
+	string ten[n], x[k];
+	for (i = 0; i < n; i++) {
+		fflush(stdin);
+		getline(cin, ten[i]);
+		if (i < k) x[i] = ten[i];
+	}
+	while (1) {
+		for (i = 0; i < k - 1; i++) cout << x[i] << " ; "; cout << x[i] << "\n";
+		if (x[0] == ten[n - k]) break;
+		i = k - 1;
+		while (x[i] == ten[n - k + i]) i--;
+		for (found = 0; found < n; found++)
+			if (ten[found] == x[i]) break;
+		x[i] = ten[++found]; for (j = i + 1; j < k; j++) x[j] = ten[++found];
+	}
+}
+
+//PROBLEM : Phần 1: Bài toán liệt kê/ Generate
+//Bài tập 6
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <string>
+using namespace std;
+int n, i, found, j;
+
+main() {
+	cin >> n;
+	string s[n];
+	int a[n];
+	for (i = 0; i < n; i++) {
+		fflush(stdin);
+		getline(cin, s[i]);
+		a[i] = i;
+	}
+	while (1) {
+		for (i = 0; i < n; i++) cout << s[a[i]] << " "; cout << "\n";
+		i = n - 1;
+		while ((a[i] < a[i - 1]) && (i > 0)) i--;
+		if (i == 0) break;
+
+		found = n - 1;
+		while (a[found] < a[i - 1])
+			found--;
+
+		swap(a[found], a[i - 1]);
+
+		for (j = i; j < (n + i) / 2; j++) swap(a[j], a[n + i - j - 1]);
+	}
+}
+
+//PROBLEM : Phần 1: Bài toán liệt kê/ Backtracking
+//Sinh dãy nhị phân n bit
+#include <iostream>
+#include <memory.h>
+using namespace std;
+int n;
+char x[20];
+
+void Try(int i) {
+	char j;
+	for (j = '0'; j <= '1'; j++) {
+		<>
+			x[i] = j;
+		if (i == n - 1) puts(x);
+		else Try(i + 1);
+		<>
+	}
+}
+
+main() {
+	cin >> n;
+	Try(0); //bat dau thu tu x[0]
+}
+
+//PROBLEM : Phần 1: Bài toán liệt kê/ Backtracking
+//Liệt kê tập con k phần tử
+#include <iostream>
+using namespace std;
+
+int n, k;
+void PrintResult(int x[]) {
+	int j;
+	for (j = 0; j < k; j++)
+		cout << x[j];
+	cout << "\n";
+}
+void Combination(int i, int x[]) {
+	int j;
+	for (j = x[i - 1] + 1; j <= (n - k + i + 1); j++) {
+		x[i] = j;
+		if (i == k - 1) PrintResult(x);
+		else Combination(i + 1, x);
+	}
+}
+
+main() {
+	cin >> n >> k;
+	int x[k];
+
+	Combination(0, x);
+}
+
+//PROBLEM : Phần 1: Bài toán liệt kê/ Backtracking
+//Liệt kê chỉnh hợp không lặp chập k
+#include <iostream>
+using namespace std;
+
+int x[20], n, k, r;
+int free[20];	//free[j] dai dien cho trang thai free/ occupied cua gia tri j
+
+void showResult()
+{
+	int j;
+	for (j = 0; j < k; j++) cout << x[j] + 1;
+	cout << "\n";
+}
+
+void Try(int i)
+{
+	int j;
+	for (j = 0; j < n; j++)
+		if (free[j] == 1) //neu gia tri j chua bi x[p] (voi moi p<i) chiem cho thi thuc hien:
+		{
+			x[i] = j;
+			if (i == k - 1) showResult();
+			else
+			{
+				free[j] = 0;  //ghi nhan viec cho x[i] nhan gia tri j
+				Try(i + 1);
+				free[j] = 1;  //bo ghi nhan viec thu x[i] = j
+			}
+		}
+}
+main()
+{
+	cin >> n >> k;
+	for (r = 0; r < n; r++)  free[r] = 1;
+	Try(0);
+}
+
+//PROBLEM : Phần 1: Bài toán liệt kê/ Backtracking
+//Phân tích số int n thành tổng
+#include <iostream>
+using namespace std;
+
+#define MAX 30
+int n;
+int x[MAX], sum[MAX];
+
+void initiate() {
+	cout << "Nhap n: ";
+	cin >> n;
+	x[0] = 1;
+	sum[0] = 0;
+}
+void printResult(int n) {
+	int j;
+	cout << "n= ";
+	for (j = 1; j < n; j++) cout << x[j] << " + ";
+	cout << x[j] << "\n";
+}
+void test(int i) {
+	int start, j;
+
+	for (j = x[i - 1]; j <= n - sum[i - 1]; j++) {
+		x[i] = j;
+		sum[i] = sum[i - 1] + x[i];
+		if (sum[i] < n) test(i + 1);
+		else {
+			printResult(i);
+			break;
+		}
+	}
+}
+
+int main() {
+	initiate();
+	test(1);
+	return 0;
+}
+
+//PROBLEM : Phần 1: Bài toán liệt kê/ Backtracking
+//Xếp hậu
+#include <iostream>
+using namespace std;
+
+#define MAX 15
+int n, x[MAX]; //x để thử
+bool d[MAX], c1[MAX], c2[MAX];  //     dọc:|    chéo 1: \	   chéo 2: / 
+
+void initiate() {
+	int j;
+	cout << "Nhap n: ";
+	cin >> n;
+	for (j = 1; j <= 2 * n - 1; j++) {
+		d[j] = true;	c1[j] = true;	c2[j] = true;
+	}
+}
+void printResult() {
+	int row;
+	for (row = 1; row <= n; row++)
+		printf("(%d, %d); ", row, x[row]);
+	cout << "\n";
+}
+void test(int row) {
+	int column, index1, index2;
+
+	for (column = 1; column <= n; column++) {
+		index1 = column - row + n; //đường chéo thứ 1 đến đường chéo thứ 2n-1
+		index2 = column + row - 1; //các đường chéo được đếm từ trái sang
+
+		if (d[column] && c1[index1] && c2[index2]) {
+			x[row] = column;	   //đặt quân hậu ở hàng row vào cột column
+			d[column] = false; c1[index1] = false; c2[index2] = false;
+			if (row == n) printResult();
+			else test(row + 1);
+			d[column] = true; c1[index1] = true; c2[index2] = true;
+		}
+	}
+}
+
+int main() {
+	initiate();
+	test(1);
+	return 0;
+}
+
+//PROBLEM : Phần 1: Bài toán liệt kê/ Kỹ thuật nhánh cận
+//Người đi du lịch
+#include <iostream>
+using namespace std;
+
+#define MAX  20
+#define MAX_COST 20*100+1  // vô cùng
+int cost[MAX][MAX]; //Ma trận chi phí
+int currentCity[MAX + 1], bestWay[MAX + 1]; //currentCity để lưu lại các thành phố đã đi qua
+											//bestWay để ghi nhận nghiệm
+int t[MAX + 1]; //t[i] để lưu chi phí đi từ X[1] đến X[i]
+bool frEE[MAX]; //free[i] = true  nếu chưa đi qua thành phố i
+int m, n;
+int minSpending; //Chi phí hành trình tối ưu- tiêu chí dánh giá có phải bestConfig hay không
+				 //- điều kiện chặn nhánh cận
+void enter() {
+	int i, j, k, temp;
+	cin >> n >> m;
+	for (i = 1; i <= n; i++)  //Khởi tạo bảng chi phí ban đầu
+		for (j = 1; j <= n; j++)
+			if (i == j)  cost[i][j] = 0;
+			else cost[i][j] = MAX_COST;
+
+	for (k = 1; k <= m; k++) {
+		cin >> i >> j >> temp;
+		cost[j][i] = (cost[i][j] = temp);  //Do chi phí như nhau trên 2 chiều
+	}
+}
+void initiate() {
+	int j;
+	for (j = 2; j <= n; j++) frEE[j] = true;
+	frEE[1] = false;		//Các thành phố là chưa đi qua ngoại trừ thành phố 1
+	currentCity[1] = (bestWay[1] = 1);	   //xuất phát từ thành phố 1
+	t[1] = 0;			  //Chi phí khi start tại thành phố 1 là 0đ
+	minSpending = MAX_COST;
+}
+void test(int i) {
+	//i là số thứ tự thành phố trong hành trình
+	//j là tên thành phố (tp1, tp2, tp..., tpn)
+	int j;
+	for (j = 2; j <= n; j++)
+		if (frEE[j])  //Nếu thành phố j là chưa đi qua
+		{
+			currentCity[i] = j; //Thử di
+			t[i] = t[i - 1] + cost[currentCity[i - 1]][j];
+			//Chi phí = Chi phí bước trước + chi phí đường đi trực tiếp
+			if (t[i] < minSpending)
+				if (i < n)	//Nếu chưa đến được x[n]
+				{
+					frEE[j] = false;   //Ðánh dấu thành phố vừa thử
+					test(i + 1);       //Tìm tiếp thành phố điểm đến tiếp theo
+					frEE[j] = true;    //Bỏ đánh dấu
+				}
+				else if (t[n] + cost[currentCity[n]][1] < minSpending)
+					//if chi phí từ tpn quay về tp1 vẫn ít hon trước
+				{ //đã đi hết hành trình n thành phố. Cập nhật BestConfig và minSpending:
+					int k;
+					for (k = 2; k <= n; k++) bestWay[k] = currentCity[k];
+					minSpending = t[n] + cost[currentCity[n]][1];
+				}
+		}
+}
+void showResult() {
+	int i;
+	cout << "\n";
+	if (minSpending == MAX_COST) cout << "NO SOLUTION";
+	else {
+		for (i = 1; i <= n; i++) cout << bestWay[i] << "->";
+		cout << 1;
+		cout << "\nCost: " << minSpending;
+	}
+}
+int main() {
+	enter();
+	initiate();
+	test(2);
+	showResult();
+	return 0;
+}
+
+//PROBLEM : Phần 1: Bài toán liệt kê/ Kỹ thuật nhánh cận
+//Dãy ABC
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+#define MAX 100
+int n, minC;
+char x[MAX], best[MAX];   //x để thử, best để ghi nhận
+int countC[MAX]; //T[i] cho biết số ký tự 'C' trong đoạn từ X1 đến X[i]
+
+//Hàm Same(i, l) cho biết xâu gồm l ký tự kết thúc tại Xi có trùng với xâu l ký tự liền trước nó không
+bool same(int i, int l) {
+	int j, k;
+	j = i - l; //j là vị trí cuối đoạn liền trước đoạn đó
+	for (k = 0; k <= l - 1; k++)
+		if (x[i - k] != x[j - k])
+			return false;
+	return true;
+}
+
+//Hàm check(i) cho biết Xi có làm hỏng tính không lặp của dãy X1 X2 ... Xi hay không
+bool check(int i) {
+	int l;
+	for (l = 1; l <= i / 2; l++)  //Thử các độ dài l
+		if (same(i, l)) // Nếu có xâu độ dài l kết thúc bởi Xi bị trùng với xâu liền trước
+			return false;
+	return true;
+}
+
+//Giữ lại kết quả vừa tìm được vào BestConfig (minC và mảng best)
+void keppResult() {
+	int j;
+	minC = countC[n];
+	for (j = 1; j <= n; j++) best[j] = x[j];
+}
+
+void Try(int i) {
+	char j;
+	for (j = 'A'; j <= 'C'; j++)
+	{
+		x[i] = j;
+		if (check(i))  //Nếu thêm giá trị đó vào không làm hỏng tính không lặp
+		{
+			if (j == 'C') countC[i] = countC[i - 1] + 1;  //Tính T[i] qua T[i-1]
+			else countC[i] = countC[i - 1];
+
+			if (countC[i] + (n - i) / 4 < minC) //Đánh giá nhánh cận
+				if (i == n) keppResult();
+				else Try(i + 1);
+		}
+	}
+}
+
+void showResult() {
+	int i;
+	for (i = 1; i <= n; i++)  cout << best[i];
+	cout << "\nLetter Count : " << minC << "\n";
+}
+
+int main() {
+	cin >> n;
+	countC[0] = 0;
+	minC = n; //Khởi tạo cấu hình bestConfig ban đầu rất tồi
+	Try(1);
+	showResult();
+	return 0;
+}
+
+//PROBLEM : Phần 1: Bài toán liệt kê/ Kỹ thuật nhánh cận
+//Dò mìn- từ bảng mật độ  suy ra bản đồ mìn
+#include <iostream>
+using namespace std;
+
+#define MAX 30
+int m, n;
+int density[MAX + 1][MAX + 1];
+
+void initiate() {
+	int i, j;
+	cin >> m >> n;
+	for (i = 1; i <= m; i++)
+		for (j = 1; j <= m; j++)
+			cin >> density[i][j];
+}
+
+void showResult() {
+
+}
+
+void test() {
+}
+
+
+int main() {
+
+	return 0;
+}
