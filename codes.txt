@@ -1,6 +1,3 @@
-hehe
-
-
 //PROBLEM : exchange money
 //Ban đầu có n đồng, cho input 1 dãy số, là giá đồng đôla trong những ngày liên tiếp. Viết chương trình 
 //chọn ra ngày mua đôla và ngày bán đô la sao cho số đồng thu được cuối cùng là lớn nhất.
